@@ -25,7 +25,7 @@ constexpr int kMazeRowsY{ 20 };
 int playerX;
 int playerY;
 
-bool hasWon = false;
+int pointsScored;
 
 /*
 	2 Dimensional Arrays
@@ -163,7 +163,8 @@ void updatePlayer(void)
 
 	if (map[playerY][playerX] == 'G')
 	{
-		hasWon = true;
+		pointsScored++;
+		cout << "you have scored " << pointsScored << " points!" << endl;
 	}
 	map[playerY][playerX] = 'P';
 }
@@ -171,19 +172,11 @@ void updatePlayer(void)
 int main()
 {
 	void startClock();
-	hasWon = false;
 	while (UpdateFramework())
 	{
 		findPlayerXAndY();
 		updatePlayer();
 		drawMaze();
-		if (hasWon == true)
-		{
-			cout << "You Win!!!" << endl;
-			cout << "Your time is: " << GetElapsedTime() << " seconds" << endl;
-
-			return 0;
-		}
 	}
 	return 0;
 }
