@@ -108,6 +108,7 @@ bool canMoveThere(int x, int y)
 
 void findPlayerXAndY(void)
 {
+	bool playerFound = false;
 	for (int y = 0; y < 20; y++)
 	{
 		for (int x = 0; x < 20; x++)
@@ -116,8 +117,14 @@ void findPlayerXAndY(void)
 			{
 				playerX = x;
 				playerY = y;
+				playerFound = true;
 				map[y][x] = '.';
 			}
+		}
+
+		if (playerFound == true)
+		{
+			break;
 		}
 	}
 }
