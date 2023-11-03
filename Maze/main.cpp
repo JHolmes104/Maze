@@ -25,6 +25,9 @@ constexpr int kMazeRowsY{ 20 };
 int playerX;
 int playerY;
 
+// Goal Data
+int goalX;
+int goalY;
 int pointsScored;
 
 /*
@@ -129,6 +132,39 @@ void findPlayerXAndY(void)
 	}
 }
 
+void relocateGoal(void)
+{
+	srand(time(0));
+	do
+	{
+		goalX = rand() % 18 + 1;
+		goalY = rand() % 18 + 1;
+	} while (map[goalY][goalX] != '.');
+	map[goalY][goalX] = 'G';
+}
+
+void findGoalXAndY(void)
+{
+	bool goalFound = false;
+	for (int y = 0; y < 20; y++)
+	{
+		for (int x = 0; x < 20; x++)
+		{
+			if (map[y][x] == 'G')
+			{
+				goalX = x;
+				goalY = y;
+				goalFound = true;
+			}
+		}
+
+		if (goalFound == true)
+		{
+			break;
+		}
+	}
+}
+
 void updatePlayer(void)
 {
 	switch (GetLastKeyPressed())
@@ -165,6 +201,7 @@ void updatePlayer(void)
 	{
 		pointsScored++;
 		cout << "you have scored " << pointsScored << " points!" << endl;
+		relocateGoal();
 	}
 	map[playerY][playerX] = 'P';
 }
@@ -175,6 +212,7 @@ int main()
 	while (UpdateFramework())
 	{
 		findPlayerXAndY();
+		findGoalXAndY();
 		updatePlayer();
 		drawMaze();
 	}
