@@ -21,6 +21,10 @@ int gTimeDelayMS{ 100 };
 constexpr int kMazeColumnsX{ 20 };
 constexpr int kMazeRowsY{ 20 };
 
+// Player coordinates
+int playerX;
+int playerY;
+
 /*
 	2 Dimensional Arrays
 	You can think of these as being an array of arrays
@@ -62,12 +66,93 @@ char map[kMazeRowsY][kMazeColumnsX] = {
 	{ 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W' },	//Y19
 };
 
-int main()
+void drawMaze()
 {
 	while (UpdateFramework())
 	{
+		for (int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				if (map[y][x] == '.')
+				{
+					ChangeColour(255, 255, 255, 255);
+					DrawRectangle(40 * x, 30 * y, 40, 30);
+				}
+				else if (map[y][x] == 'P')
+				{
+					ChangeColour(0, 0, 255, 255);
+					DrawRectangle(40 * x, 30 * y, 40, 30);
+				}
+				else if (map[y][x] == 'G')
+				{
+					ChangeColour(255, 0, 0, 255);
+					DrawRectangle(40 * x, 30 * y, 40, 30);
+				}
+			}
+		}
+	}
+}
 
+bool canMoveThere(int x, int y)
+{
+	if (map[y][x] == 'W')
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+int main()
+{
+	
+	for (int y = 0; y < 20; y++)
+	{
+		for (int x = 0; x < 20; x++)
+		{
+			if (map[y][x] == 'P')
+			{
+				playerX = x;
+				playerY = y;
+			}
+		}
 	}
 
+	switch (GetLastKeyPressed())
+	{
+		case EKeyPressed::eUp:
+			if (canMoveThere(playerX, playerY - 1))
+			{
+				playerY--;
+			}
+			break;
+		case EKeyPressed::eRight:
+			if (canMoveThere(playerX + 1, playerY))
+			{
+				playerX++;
+			}
+			break;
+		case EKeyPressed::eDown:
+			if (canMoveThere(playerX, playerY + 1))
+			{
+				playerY++;
+			}
+			break;
+		case EKeyPressed::eLeft:
+			if (canMoveThere(playerX - 1, playerY))
+			{
+				playerX--;
+			}
+			break;
+		case EKeyPressed::eNone:
+			break;
+	}
+
+
+	drawMaze();
+	
 	return 0;
 }
