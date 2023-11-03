@@ -25,6 +25,8 @@ constexpr int kMazeRowsY{ 20 };
 int playerX;
 int playerY;
 
+bool hasWon = false;
+
 /*
 	2 Dimensional Arrays
 	You can think of these as being an array of arrays
@@ -66,33 +68,31 @@ char map[kMazeRowsY][kMazeColumnsX] = {
 	{ 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W' },	//Y19
 };
 
-void drawMaze()
+void drawMaze(void)
 {
-	while (UpdateFramework())
+	for (int y = 0; y < 20; y++)
 	{
-		for (int y = 0; y < 20; y++)
+		for (int x = 0; x < 20; x++)
 		{
-			for (int x = 0; x < 20; x++)
+			if (map[y][x] == '.')
 			{
-				if (map[y][x] == '.')
-				{
-					ChangeColour(255, 255, 255, 255);
-					DrawRectangle(40 * x, 30 * y, 40, 30);
-				}
-				else if (map[y][x] == 'P')
-				{
-					ChangeColour(0, 0, 255, 255);
-					DrawRectangle(40 * x, 30 * y, 40, 30);
-				}
-				else if (map[y][x] == 'G')
-				{
-					ChangeColour(255, 0, 0, 255);
-					DrawRectangle(40 * x, 30 * y, 40, 30);
-				}
+				ChangeColour(255, 255, 255, 255);
+				DrawRectangle(40 * x, 30 * y, 40, 30);
+			}
+			else if (map[y][x] == 'P')
+			{
+				ChangeColour(0, 0, 255, 255);
+				DrawRectangle(40 * x, 30 * y, 40, 30);
+			}
+			else if (map[y][x] == 'G')
+			{
+				ChangeColour(255, 0, 0, 255);
+				DrawRectangle(40 * x, 30 * y, 40, 30);
 			}
 		}
 	}
 }
+
 
 bool canMoveThere(int x, int y)
 {
@@ -106,9 +106,8 @@ bool canMoveThere(int x, int y)
 	}
 }
 
-int main()
+void findPlayerXAndY(void)
 {
-	
 	for (int y = 0; y < 20; y++)
 	{
 		for (int x = 0; x < 20; x++)
@@ -117,42 +116,68 @@ int main()
 			{
 				playerX = x;
 				playerY = y;
+				map[y][x] = '.';
 			}
 		}
 	}
+}
 
+void updatePlayer(void)
+{
 	switch (GetLastKeyPressed())
 	{
-		case EKeyPressed::eUp:
-			if (canMoveThere(playerX, playerY - 1))
-			{
-				playerY--;
-			}
-			break;
-		case EKeyPressed::eRight:
-			if (canMoveThere(playerX + 1, playerY))
-			{
-				playerX++;
-			}
-			break;
-		case EKeyPressed::eDown:
-			if (canMoveThere(playerX, playerY + 1))
-			{
-				playerY++;
-			}
-			break;
-		case EKeyPressed::eLeft:
-			if (canMoveThere(playerX - 1, playerY))
-			{
-				playerX--;
-			}
-			break;
-		case EKeyPressed::eNone:
-			break;
+	case EKeyPressed::eUp:
+		if (canMoveThere(playerX, playerY - 1))
+		{
+			playerY--;
+		}
+		break;
+	case EKeyPressed::eRight:
+		if (canMoveThere(playerX + 1, playerY))
+		{
+			playerX++;
+		}
+		break;
+	case EKeyPressed::eDown:
+		if (canMoveThere(playerX, playerY + 1))
+		{
+			playerY++;
+		}
+		break;
+	case EKeyPressed::eLeft:
+		if (canMoveThere(playerX - 1, playerY))
+		{
+			playerX--;
+		}
+		break;
+	case EKeyPressed::eNone:
+		break;
 	}
 
+	if (map[playerY][playerX] == 'G')
+	{
+		hasWon = true;
+	}
+	map[playerY][playerX] = 'P';
+}
 
-	drawMaze();
-	
+int main()
+{
+	void startClock();
+	hasWon = false;
+	while (UpdateFramework())
+	{
+		findPlayerXAndY();
+		updatePlayer();
+		drawMaze();
+		if (hasWon == true)
+		{
+			cout << "You Win!!!" << endl;
+			cout << "Your time is: " << GetElapsedTime() << " seconds" << endl;
+
+			return 0;
+		}
+	}
 	return 0;
 }
+
