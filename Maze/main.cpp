@@ -129,6 +129,18 @@ void findPlayerXAndY(void)
 	}
 }
 
+void randomStart(void)
+{
+	findPlayerXAndY();
+	srand(time(0));
+
+	do
+	{
+		playerX = rand() % 18 + 1;
+		playerY = rand() % 18 + 1;
+	} while (map[playerX][playerY] != '.');
+}
+
 void updatePlayer(void)
 {
 	switch (GetLastKeyPressed())
@@ -170,6 +182,7 @@ void updatePlayer(void)
 
 int main()
 {
+	randomStart();
 	void startClock();
 	hasWon = false;
 	while (UpdateFramework())
