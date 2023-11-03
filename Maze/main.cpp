@@ -98,6 +98,11 @@ void drawMaze(void)
 				ChangeColour(255, 0, 0, 255);
 				DrawRectangle(40 * x, 30 * y, 40, 30);
 			}
+			else if (map[y][x] == 'A')
+			{
+				ChangeColour(127, 0, 255, 255);
+				DrawRectangle(40 * x, 30 * y, 40, 30);
+			}
 		}
 	}
 }
@@ -128,10 +133,35 @@ void findPlayerXAndY(void)
 				playerY = y;
 				playerFound = true;
 				map[y][x] = '.';
+				break;
 			}
 		}
 
 		if (playerFound == true)
+		{
+			break;
+		}
+	}
+}
+
+void findAIXandY (void)
+{
+	bool AIFound = false;
+	for (int y = 0; y < 20; y++)
+	{
+		for (int x = 0; x < 20; x++)
+		{
+			if (map[y][x] == 'A')
+			{
+				aix = x;
+				aiy = y;
+				AIFound = true;
+				map[y][x] = '.';
+				break;
+			}
+		}
+
+		if (AIFound == true)
 		{
 			break;
 		}
@@ -177,6 +207,63 @@ void updatePlayer(void)
 	map[playerY][playerX] = 'P';
 }
 
+void updateAI(void)
+{
+	srand(time(0));
+	bool validDir = false;
+	while (validDir == false)
+	{
+		int aiDir = rand() % 4;
+		switch (aiDir)
+		{
+			// Up
+			case 0:
+				if (canMoveThere(aix, aiy - 1))
+				{
+					aiy--;
+					validDir = true;
+				}
+				break;
+
+			// Right
+			case 1:
+				if (canMoveThere(aix + 1, aiy))
+				{
+					aix++;
+					validDir = true;
+				}
+				break;
+
+			// Down
+			case 2:
+				if (canMoveThere(aix, aiy + 1))
+				{
+					aiy++;
+					validDir = true;
+				}
+				break;
+
+			// Left
+			case 3:
+				if (canMoveThere(aix - 1, aiy))
+				{
+					aix--;
+					validDir = true;
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
+	if (map[aiy][aix] == 'G')
+	{
+		hasLost = true;
+	}
+
+	map[aiy][aix] = 'A';
+}
+
 int main()
 {
 	void startClock();
@@ -184,13 +271,22 @@ int main()
 	while (UpdateFramework())
 	{
 		findPlayerXAndY();
+		findAIXandY();
 		updatePlayer();
+		updateAI();
 		drawMaze();
 		if (hasWon == true)
 		{
 			cout << "You Win!!!" << endl;
 			cout << "Your time is: " << GetElapsedTime() << " seconds" << endl;
 
+			return 0;
+		}
+
+		if (hasLost == true)
+		{
+			cout << "You lose!!!" << endl;
+			cout << "You lost in " << GetElapsedTime() << " seconds" << endl;
 			return 0;
 		}
 	}
