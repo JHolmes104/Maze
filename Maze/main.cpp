@@ -26,6 +26,8 @@ constexpr int kMazeRowsY{ 20 };
 int playerX;
 int playerY;
 
+int level = 1;
+
 bool hasWon = false;
 
 /*
@@ -133,7 +135,7 @@ void findPlayerXAndY(void)
 void saveGame()
 {
 	ofstream output;
-	output.open("Savefile.txt");
+	output.open("SaveFile.txt");
 
 	if (output.fail())
 	{
@@ -141,8 +143,21 @@ void saveGame()
 	}
 	else
 	{
-
-		output << playerX << "\t" << playerY;
+		for (int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				if (x == playerX && y == playerY)
+				{
+					output << 'P' << ' ';
+				}
+				else
+				{
+					output << map[y][x] << ' ';
+				}
+			}
+			output << endl;
+		}
 
 		output.close();
 	}
@@ -153,7 +168,18 @@ void loadGame()
 	ifstream input;
 	input.open("SaveFile.txt");
 
-	input >> playerX >> playerY;
+	for (int y = 0; y < 20; y++)
+	{
+		for (int x = 0; x < 20; x++)
+		{
+			input >> map[y][x];
+			if (map[y][x] == 'P')
+			{
+				playerX = x;
+				playerY = y;
+			}
+		}
+	}
 
 	input.close();
 }
