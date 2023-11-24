@@ -7,6 +7,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <fstream>
+#include <string>
 
 #include "Framework.h"
 using namespace std;
@@ -71,6 +72,26 @@ char map[kMazeRowsY][kMazeColumnsX] = {
 	{ 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W' },	//Y19
 };
 
+void initializeLevel()
+{
+	ifstream input;
+	input.open("Level"+to_string(level)+".txt");
+
+	for (int y = 0; y < 20; y++)
+	{
+		for (int x = 0; x < 20; x++)
+		{
+			input >> map[y][x];
+			if (map[y][x] == 'P')
+			{
+				playerX = x;
+				playerY = y;
+			}
+		}
+	}
+
+	input.close();
+}
 void drawMaze(void)
 {
 	for (int y = 0; y < 20; y++)
@@ -132,6 +153,37 @@ void findPlayerXAndY(void)
 	}
 }
 
+//void levelTemplate()
+//{
+//	ofstream output;
+//	output.open("Level3.txt");
+//
+//	if (output.fail())
+//	{
+//		cout << "File could not be opened" << endl;
+//	}
+//	else
+//	{
+//		for (int y = 0; y < 20; y++)
+//		{
+//			for (int x = 0; x < 20; x++)
+//			{
+//				if (x == 0 || x == 19 || y == 0 || y == 19)
+//				{
+//					output << 'W' << ' ';
+//				}
+//				else
+//				{
+//					output << '.' << ' ';
+//				}
+//			}
+//			output << endl;
+//		}
+//
+//		output.close();
+//	}
+//}
+
 void saveGame()
 {
 	ofstream output;
@@ -159,6 +211,7 @@ void saveGame()
 			output << endl;
 		}
 
+		output << level;
 		output.close();
 	}
 }
@@ -180,7 +233,7 @@ void loadGame()
 			}
 		}
 	}
-
+	input >> level;
 	input.close();
 }
 
@@ -224,13 +277,22 @@ void updatePlayer(void)
 
 	if (map[playerY][playerX] == 'G')
 	{
-		hasWon = true;
+		if (level == 3)
+		{
+			hasWon = true;
+		}
+		else
+		{
+			level++;
+			initializeLevel();
+		}
 	}
 	map[playerY][playerX] = 'P';
 }
 
 int main()
 {
+	initializeLevel();
 	void startClock();
 	hasWon = false;
 	while (UpdateFramework())
