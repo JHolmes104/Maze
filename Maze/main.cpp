@@ -135,9 +135,17 @@ void saveGame()
 	ofstream output;
 	output.open("Savefile.txt");
 
-	output << playerX << "\t" << playerY;
+	if (output.fail())
+	{
+		cout << "File could not be opened" << endl;
+	}
+	else
+	{
 
-	output.close();
+		output << playerX << "\t" << playerY;
+
+		output.close();
+	}
 }
 
 void updatePlayer(void)
