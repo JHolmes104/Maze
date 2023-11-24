@@ -130,6 +130,16 @@ void findPlayerXAndY(void)
 	}
 }
 
+void saveGame()
+{
+	ofstream output;
+	output.open("Savefile.txt");
+
+	output << playerX << "\t" << playerY;
+
+	output.close();
+}
+
 void updatePlayer(void)
 {
 	switch (GetLastKeyPressed())
@@ -157,6 +167,9 @@ void updatePlayer(void)
 		{
 			playerX--;
 		}
+		break;
+	case EKeyPressed::eSave:
+		saveGame();
 		break;
 	case EKeyPressed::eNone:
 		break;
