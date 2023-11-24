@@ -148,6 +148,16 @@ void saveGame()
 	}
 }
 
+void loadGame()
+{
+	ifstream input;
+	input.open("SaveFile.txt");
+
+	input >> playerX >> playerY;
+
+	input.close();
+}
+
 void updatePlayer(void)
 {
 	switch (GetLastKeyPressed())
@@ -178,6 +188,9 @@ void updatePlayer(void)
 		break;
 	case EKeyPressed::eSave:
 		saveGame();
+		break;
+	case EKeyPressed::eLoad:
+		loadGame();
 		break;
 	case EKeyPressed::eNone:
 		break;
