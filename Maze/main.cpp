@@ -28,6 +28,7 @@ int playerX;
 int playerY;
 
 int level = 1;
+int steps = 0;
 
 bool hasWon = false;
 
@@ -211,14 +212,14 @@ void saveGame()
 			output << endl;
 		}
 
-		output << level;
+		output << level << "\t" << steps;
 		output.close();
 	}
 }
 
 void loadGame()
 {
-	ifstream input;
+	ifstream input("*/Maze");
 	input.open("SaveFile.txt");
 
 	for (int y = 0; y < 20; y++)
@@ -233,7 +234,7 @@ void loadGame()
 			}
 		}
 	}
-	input >> level;
+	input >> level >> steps;
 	input.close();
 }
 
@@ -244,24 +245,28 @@ void updatePlayer(void)
 	case EKeyPressed::eUp:
 		if (canMoveThere(playerX, playerY - 1))
 		{
+			steps++;
 			playerY--;
 		}
 		break;
 	case EKeyPressed::eRight:
 		if (canMoveThere(playerX + 1, playerY))
 		{
+			steps++;
 			playerX++;
 		}
 		break;
 	case EKeyPressed::eDown:
 		if (canMoveThere(playerX, playerY + 1))
 		{
+			steps++;
 			playerY++;
 		}
 		break;
 	case EKeyPressed::eLeft:
 		if (canMoveThere(playerX - 1, playerY))
 		{
+			steps++;
 			playerX--;
 		}
 		break;
@@ -303,7 +308,7 @@ int main()
 		if (hasWon == true)
 		{
 			cout << "You Win!!!" << endl;
-			cout << "Your time is: " << GetElapsedTime() << " seconds" << endl;
+			cout << "You took " << steps << " steps to finish all three mazes!" << endl;
 
 			return 0;
 		}
