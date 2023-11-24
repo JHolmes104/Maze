@@ -274,7 +274,7 @@ void updatePlayer(void)
 	case EKeyPressed::eNone:
 		break;
 	}
-
+	
 	if (map[playerY][playerX] == 'G')
 	{
 		if (level == 3)
