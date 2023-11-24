@@ -6,6 +6,7 @@
 #include <vector>
 #include <time.h>
 #include <stdio.h>
+#include <fstream>
 
 #include "Framework.h"
 using namespace std;
