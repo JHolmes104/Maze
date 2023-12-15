@@ -73,6 +73,7 @@ char map[kMazeRowsY][kMazeColumnsX] = {
 	{ 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W' },	//Y19
 };
 
+//Loads the correct level.
 void initializeLevel()
 {
 	ifstream input;
@@ -93,6 +94,8 @@ void initializeLevel()
 
 	input.close();
 }
+
+//Draws the maze using rectangles.
 void drawMaze(void)
 {
 	for (int y = 0; y < 20; y++)
@@ -118,7 +121,7 @@ void drawMaze(void)
 	}
 }
 
-
+//Validate player inputs.
 bool canMoveThere(int x, int y)
 {
 	if (map[y][x] == 'W')
@@ -131,6 +134,7 @@ bool canMoveThere(int x, int y)
 	}
 }
 
+//Finds the player's position on the screen.
 void findPlayerXAndY(void)
 {
 	bool playerFound = false;
@@ -185,6 +189,7 @@ void findPlayerXAndY(void)
 //	}
 //}
 
+//Saves the current level to a text file.
 void saveGame()
 {
 	ofstream output;
@@ -217,6 +222,7 @@ void saveGame()
 	}
 }
 
+//Loads the most recent save.
 void loadGame()
 {
 	ifstream input("*/Maze");
@@ -240,6 +246,7 @@ void loadGame()
 
 void updatePlayer(void)
 {
+	//Get the player's inputs and performs the correct action.
 	switch (GetLastKeyPressed())
 	{
 	case EKeyPressed::eUp:
@@ -280,6 +287,8 @@ void updatePlayer(void)
 		break;
 	}
 	
+
+	//Check if the player has reached the goal.
 	if (map[playerY][playerX] == 'G')
 	{
 		if (level == 3)
@@ -294,6 +303,7 @@ void updatePlayer(void)
 	}
 	map[playerY][playerX] = 'P';
 }
+
 
 int main()
 {
