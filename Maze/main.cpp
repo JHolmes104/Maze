@@ -158,37 +158,6 @@ void findPlayerXAndY(void)
 	}
 }
 
-//void levelTemplate()
-//{
-//	ofstream output;
-//	output.open("Level3.txt");
-//
-//	if (output.fail())
-//	{
-//		cout << "File could not be opened" << endl;
-//	}
-//	else
-//	{
-//		for (int y = 0; y < 20; y++)
-//		{
-//			for (int x = 0; x < 20; x++)
-//			{
-//				if (x == 0 || x == 19 || y == 0 || y == 19)
-//				{
-//					output << 'W' << ' ';
-//				}
-//				else
-//				{
-//					output << '.' << ' ';
-//				}
-//			}
-//			output << endl;
-//		}
-//
-//		output.close();
-//	}
-//}
-
 //Saves the current level to a text file.
 void saveGame()
 {
