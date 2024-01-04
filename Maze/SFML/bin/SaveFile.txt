@@ -1,0 +1,21 @@
+W W W W W W W W W W W W W W W W W W W W 
+W . . . W . . . . . . . . . . . . . . W 
+W . W W W . W . W W W W W W W W W W . W 
+W . W . . . W . W . . . . . . P G W . W 
+W . W W W W W . W . W W W W W W W W . W 
+W . . . W . W . W . W . . . . W . W . W 
+W W W . W . W . W . W W . W . W . W . W 
+W . . . W . W . W . W . . W . W . W . W 
+W . W . . . W . W . . . W W . . . W . W 
+W . W . W W W . W . W . . W . W . W . W 
+W . W . W . W . W . W W . W . W . W . W 
+W . W . W . W . W . . W . W W W . W . W 
+W . W . . . W . W . . . . W . W . W . W 
+W . W . W . W . W . W W . W . W . W . W 
+W . W . W . W . W . W . . W . W . W . W 
+W . W . W . W . W . W W . W . W . W . W 
+W . W . W . W . W . W . . W . W . W . W 
+W . W W W W W . W . W W W W . W . W . W 
+W . . . . . . . W . . . . W . . . . . W 
+W W W W W W W W W W W W W W W W W W W W 
+3	234
